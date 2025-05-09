@@ -1,2 +1,1 @@
 require("brabs")
-print("test")
