@@ -45,6 +45,7 @@ return {
                 "lua_ls",
                 "omnisharp",
                 "pylsp",
+                "clangd",
             },
             handlers = {
                 function(server_name) -- default handler (optional)
@@ -116,6 +117,27 @@ return {
                                     }
                                 }
                             },
+                        },
+                    })
+                end,
+                ["clangd"] = function()
+                    require("lspconfig").clangd.setup({
+                        capabilities = capabilities, -- Reuse your existing capabilities
+                        cmd = { "clangd", "--background-index", "--clang-tidy", "--header-insertion=iwyu" },
+                        settings = {
+                            clangd = {
+                                InlayHints = {
+                                    Enabled = true, -- Show type hints in code (if supported by your clangd version)
+                                },
+                                Formatting = {
+                                    Enable = true, -- Enable clang-format integration
+                                },
+                            },
+                        },
+                        init_options = {
+                            usePlaceholders = true,
+                            completeUnimported = true, -- Suggest missing includes
+                            clangdFileStatus = true,
                         },
                     })
                 end,
