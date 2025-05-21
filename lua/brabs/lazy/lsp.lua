@@ -93,7 +93,7 @@ return {
                             FormattingOptions = {
                                 EnableEditorConfigSupport = true
                             }
-                        }
+                        },
                     })
                 end,
                 ["pylsp"] = function()
