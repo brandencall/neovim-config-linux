@@ -131,6 +131,7 @@ return {
                                 },
                                 Formatting = {
                                     Enable = true, -- Enable clang-format integration
+                                    Style = "file",
                                 },
                             },
                         },

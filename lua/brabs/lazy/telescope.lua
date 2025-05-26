@@ -15,7 +15,8 @@ return {
                     "%.trx$",
                     "obj\\",
                     "bin\\",
-                    "packages\\"
+                    "packages\\",
+                    "%.o"
                 }
             }
         })
