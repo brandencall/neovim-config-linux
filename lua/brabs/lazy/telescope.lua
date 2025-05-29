@@ -13,9 +13,9 @@ return {
                 file_ignore_patterns = {
                     "%.dll$",
                     "%.trx$",
-                    "obj\\",
-                    "bin\\",
-                    "packages\\",
+                    "obj/.*",
+                    "bin/.*",
+                    "packages/.*",
                     "%.o"
                 }
             }
