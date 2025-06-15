@@ -123,7 +123,17 @@ return {
                 ["clangd"] = function()
                     require("lspconfig").clangd.setup({
                         capabilities = capabilities, -- Reuse your existing capabilities
-                        cmd = { "clangd", "--background-index", "--clang-tidy", "--header-insertion=iwyu" },
+                        cmd = { "clangd", "--background-index", "--clang-tidy", "--compile-commands-dir=~/UnrealEngine" },
+                        root_dir = function(fname)
+                            local util = require('lspconfig.util')
+                            -- Check for project root (e.g., .uproject or compile_commands.json)
+                            local project_root = util.root_pattern('.uproject', 'compile_commands.json')(fname)
+                            if project_root then
+                                return project_root
+                            end
+                            -- Fallback to engine root
+                            return '/home/brabs/UnrealEngine'
+                        end,
                         settings = {
                             clangd = {
                                 InlayHints = {
@@ -139,6 +149,7 @@ return {
                             usePlaceholders = true,
                             completeUnimported = true, -- Suggest missing includes
                             clangdFileStatus = true,
+                            compilationDatabasePath = '/home/brabs/UnrealEngine',
                         },
                     })
                 end,
