@@ -5,7 +5,9 @@ return {
         lazy = false,
         config = function()
             require("aia")
-            vim.notify("aia.nvim config executed", vim.log.levels.INFO)
+            vim.keymap.set("n", "<leader>ba", function()
+                vim.cmd("AiFloatingWin")
+            end, { desc = "Open floating window" })
         end
     }
 }
