@@ -1,6 +1,6 @@
 return {
     {
-        dir = "~/Projects/plugins/aia.nvim",
+        dir = "~/Projects/plugins/aia_nvim",
         name = "aia.nvim",
         lazy = false,
         config = function()
