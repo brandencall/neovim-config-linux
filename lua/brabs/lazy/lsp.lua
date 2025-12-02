@@ -17,16 +17,16 @@ return {
     config = function()
         vim.api.nvim_create_autocmd("DiagnosticChanged", {
             callback = function()
-                vim.diagnostic.setqflist({ open = false })
+                local diags = vim.diagnostic.get(nil)
+                if #diags > 0 then
+                    vim.diagnostic.setqflist({ open = false })
+                end
             end,
         })
         vim.api.nvim_create_autocmd("BufWritePre", {
-            pattern = "*",
+            pattern = { "*.cs", "*.cpp", "*.c", "*.h", "*.hpp" },
             callback = function()
-                vim.lsp.buf.code_action({
-                    context = { only = { "source.organizeImports" } },
-                    apply = true,
-                })
+                vim.lsp.buf.code_action({ apply = true })
             end,
             desc = "Auto-import missing packages before saving",
         })
@@ -44,7 +44,6 @@ return {
             ensure_installed = {
                 "lua_ls",
                 "omnisharp",
-                "pylsp",
                 "clangd",
             },
             handlers = {
@@ -93,30 +92,6 @@ return {
                             FormattingOptions = {
                                 EnableEditorConfigSupport = true
                             }
-                        },
-                    })
-                end,
-                ["pylsp"] = function()
-                    require("lspconfig").pylsp.setup({
-                        capabilities = capabilities,
-                        settings = {
-                            python = {
-                                analysis = {
-                                    autoSearchPaths = true,
-                                    extraPaths = { "C:/Users/Brand/AppData/Local/Programs/Python/Python313/Lib/site-packages" },
-                                    diagnosticMode = "workspace",
-                                    useLibraryCodeForTypes = true,
-                                },
-                                pythonPath = "C:/Users/Brand/AppData/Local/Programs/Python/Python313"
-                            },
-                            pylsp = {
-                                plugins = {
-                                    pycodestyle = {
-                                        enabled = true,
-                                        maxLineLength = 120,
-                                    }
-                                }
-                            },
                         },
                     })
                 end,
