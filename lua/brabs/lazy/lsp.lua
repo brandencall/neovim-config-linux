@@ -25,10 +25,22 @@ return {
         })
         vim.api.nvim_create_autocmd("BufWritePre", {
             pattern = { "*.cs", "*.cpp", "*.c", "*.h", "*.hpp" },
-            callback = function()
-                vim.lsp.buf.code_action({ apply = true })
+            callback = function(args)
+                local ft = vim.bo[args.buf].filetype
+
+                if ft == "cs" or ft == "cpp" or ft == "c" then
+                    vim.lsp.buf.code_action({
+                        context = { only = { "source.organizeImports" } },
+                        apply = true,
+                    })
+                end
+
+                vim.lsp.buf.format({
+                    bufnr = args.buf,
+                    timeout_ms = 2000,
+                })
             end,
-            desc = "Auto-import missing packages before saving",
+            desc = "Organize imports + format on save",
         })
         local cmp = require('cmp')
         local cmp_lsp = require("cmp_nvim_lsp")
@@ -85,6 +97,7 @@ return {
                     require("lspconfig").omnisharp.setup({
                         capabilities = capabilities,
                         cmd = { "omnisharp", "--languageserver", "--hostPID", tostring(vim.fn.getpid()) },
+                        enable_roslyn_analyzers = true,    -- Enable extra C# code analysis
                         organize_imports_on_format = true, -- Auto-organize imports
                         enable_import_completion = true,   -- Suggest missing imports
                         settings = {
