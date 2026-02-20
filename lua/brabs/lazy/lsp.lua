@@ -85,7 +85,6 @@ return {
                     require("lspconfig").omnisharp.setup({
                         capabilities = capabilities,
                         cmd = { "omnisharp", "--languageserver", "--hostPID", tostring(vim.fn.getpid()) },
-                        enable_roslyn_analyzers = true,    -- Enable extra C# code analysis
                         organize_imports_on_format = true, -- Auto-organize imports
                         enable_import_completion = true,   -- Suggest missing imports
                         settings = {
